@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center bg-gray-50">
+  <div class="flex items-center justify-center bg-[#ffffff]">
     <div
       class="relative bg-gray-200 rounded-full p-1 cursor-pointer transition-all duration-300 ease-in-out mt-5"
     >

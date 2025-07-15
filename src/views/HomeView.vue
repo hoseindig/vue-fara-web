@@ -1,5 +1,10 @@
 <template>
   <div class="home">
+    <div class="flex items-center justify-center bg-[#ffffff] mt-6">
+      <h1 class="text-4xl font-extrabold text-black font-vazir">
+        آگهی‌های اسپانسریــنگ
+      </h1>
+    </div>
     <HeaderButton @update="handleToggle" />
     <!-- @update:features="saveFeaturesToStore" -->
     <!-- محتوای تب‌ها -->
