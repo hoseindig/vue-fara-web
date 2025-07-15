@@ -1,21 +1,11 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-gray-50">
+  <div class="flex items-center justify-center bg-gray-50">
     <div
-      class="relative bg-gray-200 rounded-full p-1 cursor-pointer transition-all duration-300 ease-in-out"
+      class="relative bg-gray-200 rounded-full p-1 cursor-pointer transition-all duration-300 ease-in-out mt-5"
     >
       <div class="flex">
         <!-- مستقیم -->
-        <!-- <div
-          @click="emit('update', false)"
-          :class="[
-            'px-4 py-2 rounded-full text-sm font-medium cursor-pointer transition-all duration-300 ease-in-out',
-            !isNonStraight
-              ? 'bg-teal-500 text-white shadow-md'
-              : 'text-gray-600 hover:text-gray-800',
-          ]"
-        >
-          مستقیم
-        </div> -->
+
         <div
           @click="toggleSwitch"
           :class="[
@@ -28,17 +18,7 @@
           مستقيم
         </div>
         <!-- غیر مستقیم -->
-        <!-- <div
-          @click="emit('update', true)"
-          :class="[
-            'px-4 py-2 rounded-full text-sm font-medium cursor-pointer transition-all duration-300 ease-in-out',
-            isNonStraight
-              ? 'bg-teal-500 text-white shadow-md'
-              : 'text-gray-600 hover:text-gray-800',
-          ]"
-        >
-          غیر مستقیم
-        </div> -->
+
         <div
           @click="toggleSwitch"
           :class="[
