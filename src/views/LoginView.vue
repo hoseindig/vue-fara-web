@@ -1,10 +1,14 @@
 <template>
   <div
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 px-4"
+    class="relative min-h-screen bg-black overflow-hidden flex items-center justify-center px-4"
     dir="rtl"
   >
+    <!-- ستاره‌ها -->
+    <canvas id="starfield" class="absolute inset-0 w-full h-full z-0"></canvas>
+
+    <!-- فرم ورود -->
     <div
-      class="bg-white p-8 rounded-xl shadow-md w-full max-w-sm text-right relative"
+      class="relative z-10 bg-white p-8 rounded-xl shadow-md w-full max-w-sm text-right"
     >
       <h2 class="text-2xl font-bold mb-6 text-gray-800">ورود به حساب کاربری</h2>
 
@@ -39,7 +43,6 @@
         </button>
       </form>
 
-      <!-- لودینگ -->
       <div v-if="loading" class="flex justify-center items-center py-10">
         <svg
           class="animate-spin h-10 w-10 text-blue-600"
@@ -62,53 +65,84 @@
           />
         </svg>
       </div>
-
-      <!-- Toast -->
-      <Toast v-if="showToast" :message="'✅ ورود با موفقیت انجام شد'" />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useStore } from "vuex";
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
-export default defineComponent({
-  setup() {
-    const store = useStore();
-    const router = useRouter();
+const username = ref("");
+const password = ref("");
+const loading = ref(false);
 
-    const username = ref("");
-    const password = ref("");
-    const loading = ref(false);
-    const showToast = ref(false);
+const store = useStore();
+const router = useRouter();
 
-    const handleLogin = async () => {
-      if (username.value && password.value) {
-        loading.value = true;
+const handleLogin = async () => {
+  if (!username.value || !password.value) {
+    toast.error("لطفاً فیلدها را پر کنید");
+    return;
+  }
 
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        await store.dispatch("auth/login");
-        await store.dispatch("user/setUser");
-        loading.value = false;
+  loading.value = true;
+  await new Promise((resolve) => setTimeout(resolve, 1500));
 
-        showToast.value = true;
+  await store.dispatch("auth/login");
+  await store.dispatch("user/setUser");
 
-        // بعد چند لحظه بره به صفحه اصلی
-        router.push("/");
-      } else {
-        alert("لطفاً هر دو فیلد را پر کنید");
+  toast.success("✅ ورود با موفقیت انجام شد");
+  router.push("/");
+  loading.value = false;
+};
+
+// ستاره‌های پس‌زمینه
+onMounted(() => {
+  const canvas = document.getElementById("starfield") as HTMLCanvasElement;
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const stars = Array.from({ length: 120 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    radius: Math.random() * 1.2 + 0.3,
+    speed: Math.random() * 0.2 + 0.05,
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffffff";
+    stars.forEach((star) => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  function update() {
+    stars.forEach((star) => {
+      star.y += star.speed;
+      if (star.y > canvas.height) {
+        star.y = 0;
+        star.x = Math.random() * canvas.width;
       }
-    };
+    });
+  }
 
-    return {
-      username,
-      password,
-      loading,
-      handleLogin,
-      showToast,
-    };
-  },
+  function animate() {
+    draw();
+    update();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 });
 </script>
