@@ -1,4 +1,4 @@
-// src/store/modules/auth.ts
+/* eslint-disable prettier/prettier */
 
 import { Module } from "vuex";
 

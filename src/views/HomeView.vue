@@ -7,7 +7,7 @@
       v-if="activeTab === true"
       class="bg-white p-6 rounded shadow text-right"
     >
-      <h3 class="text-lg font-bold mb-2">محتوای تب مستقیم</h3>
+      <!-- <h3 class="text-lg font-bold mb-2">محتوای تب مستقیم</h3> -->
       <DragDropUpload v-model="features" />
     </div>
 
@@ -15,7 +15,7 @@
       v-if="activeTab === false"
       class="bg-white p-6 rounded shadow text-right"
     >
-      <h3 class="text-lg font-bold mb-2">محتوای تب غیر مستقیم</h3>
+      <!-- <h3 class="text-lg font-bold mb-2">محتوای تب غیر مستقیم</h3> -->
       <DragDropUpload v-model="features" />
     </div>
   </div>
