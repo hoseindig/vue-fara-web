@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <HeaderButton @update="handleToggle" />
-    <DragDropUpload />
+    <DragDropUpload @update:features="saveFeaturesToStore" />
   </div>
 </template>
 
@@ -14,5 +14,10 @@ const selected = ref(false);
 const handleToggle = (val: boolean) => {
   selected.value = val;
   console.log("handleToggle", val);
+};
+
+const saveFeaturesToStore = (features: any[]) => {
+  // selected.value = val;
+  console.log("saveFeaturesToStore", JSON.parse(JSON.stringify(features)));
 };
 </script>

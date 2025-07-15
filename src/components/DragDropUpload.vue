@@ -37,8 +37,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch, defineEmits } from "vue";
 import draggable from "vuedraggable";
+
+// defineEmit
+const emit = defineEmits<{
+  (e: "update", value: boolean): void;
+}>();
 
 // آدرس تصاویر از پوشه public یا assets
 const features = ref([
@@ -69,6 +74,10 @@ const features = ref([
     icon: new URL("@/assets/heartbeat-duotone 1.png", import.meta.url).href,
   },
 ]);
+
+watch(features, (newList) => {
+  emit("update:features", newList);
+});
 </script>
 
 <style scoped>
