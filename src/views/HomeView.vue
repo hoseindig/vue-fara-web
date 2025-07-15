@@ -2,36 +2,29 @@
   <div class="home">
     <HeaderButton @update="handleToggle" />
     <!-- @update:features="saveFeaturesToStore" -->
-    <DragDropUpload v-model="features" />
     <!-- محتوای تب‌ها -->
     <div
       v-if="activeTab === true"
       class="bg-white p-6 rounded shadow text-right"
     >
-      <h3 class="text-lg font-bold mb-2">محتوای تب اول</h3>
-      <p class="text-gray-600 leading-relaxed">
-        اینجا محتوای مربوط به تب اول قرار می‌گیرد. می‌توانید هر چیزی مانند فرم،
-        متن، تصویر یا کامپوننت قرار دهید.
-      </p>
+      <h3 class="text-lg font-bold mb-2">محتوای تب مستقیم</h3>
+      <DragDropUpload v-model="features" />
     </div>
 
     <div
       v-if="activeTab === false"
       class="bg-white p-6 rounded shadow text-right"
     >
-      <h3 class="text-lg font-bold mb-2">محتوای تب دوم</h3>
-      <p class="text-gray-600 leading-relaxed">
-        اینجا محتوای مربوط به تب دوم قرار می‌گیرد. مثلاً لیستی از داده‌ها یا
-        تنظیمات یا هر چیز دیگر.
-      </p>
+      <h3 class="text-lg font-bold mb-2">محتوای تب غیر مستقیم</h3>
+      <DragDropUpload v-model="features" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useStore } from "vuex";
-import { computed } from "vue";
+// import { computed } from "vue";
 const store = useStore();
 
 import HeaderButton from "../components/HeaderButton.vue";
@@ -83,4 +76,13 @@ const saveFeaturesToStore = (features: any[]) => {
   console.log("saveFeaturesToStore", JSON.parse(JSON.stringify(features)));
   store.commit("features/setFeatures", features);
 };
+
+watch(
+  features,
+  (val) => {
+    store.commit("features/setFeatures", val);
+    console.log("featuresList.value watch", features.value);
+  },
+  { deep: true }
+);
 </script>
