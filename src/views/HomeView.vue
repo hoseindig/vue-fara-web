@@ -1,17 +1,18 @@
 <template>
   <div class="home">
+    <HeaderButton @update="handleToggle" />
     <DragDropUpload />
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
-// import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
-import DragDropUpload from "@/components/DragDropUpload.vue";
-@Options({
-  components: {
-    DragDropUpload,
-  },
-})
-export default class HomeView extends Vue {}
+<script setup lang="ts">
+import { ref } from "vue";
+import HeaderButton from "../components/HeaderButton.vue";
+import DragDropUpload from "../components/DragDropUpload.vue";
+const selected = ref(false);
+
+const handleToggle = (val: boolean) => {
+  selected.value = val;
+  console.log("handleToggle", val);
+};
 </script>
