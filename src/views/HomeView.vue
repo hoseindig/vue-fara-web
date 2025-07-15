@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <HeaderButton @update="handleToggle" />
-    <DragDropUpload @update:features="saveFeaturesToStore" />
+    <!-- @update:features="saveFeaturesToStore" -->
+    <DragDropUpload v-model="features" />
     <!-- محتوای تب‌ها -->
     <div
       v-if="activeTab === true"
@@ -34,11 +35,41 @@ import { computed } from "vue";
 const store = useStore();
 
 import HeaderButton from "../components/HeaderButton.vue";
-import DragDropUpload from "../components/DragDropUpload.vue";
+import DragDropUpload from "../components/DragDrop.vue";
 
 const selected = ref(false);
 // const activeTab = ref<"first" | "second">("first");
 const activeTab = ref(false);
+
+const featuresList = ref([]);
+const features = ref([
+  {
+    id: 1,
+    title: "ماندگاری",
+    description: "برند در داستان طنز مثل یک جوک خوب در ذهن می‌ماند.",
+    icon: new URL("@/assets/brain-duotone (1) 1.png", import.meta.url).href,
+  },
+  {
+    id: 2,
+    title: "غافلگیری مخاطب",
+    description:
+      "برند خلاقانه و بامزه وارد داستان می‌شود و لبخند مخاطب را جلب می‌کند.",
+    icon: new URL("@/assets/smiley-x-eyes-duotone 1.png", import.meta.url).href,
+  },
+  {
+    id: 3,
+    title: "تعامل بیشتر",
+    description:
+      "اشاره مستقیم، بحث‌برانگیز است و تعامل مخاطبان را افزایش می‌دهد.",
+    icon: new URL("@/assets/armchair-duotone 1.png", import.meta.url).href,
+  },
+  {
+    id: 4,
+    title: "ارتباط احساسی",
+    description: "حضور در موقعیت طنز، حس مثبت و صمیمیت برند را تقویت می‌کند.",
+    icon: new URL("@/assets/heartbeat-duotone 1.png", import.meta.url).href,
+  },
+]);
 
 const handleToggle = (val: boolean) => {
   selected.value = val;
@@ -48,6 +79,7 @@ const handleToggle = (val: boolean) => {
 
 const saveFeaturesToStore = (features: any[]) => {
   // selected.value = val;
+  featuresList.value = features;
   console.log("saveFeaturesToStore", JSON.parse(JSON.stringify(features)));
   store.commit("features/setFeatures", features);
 };
