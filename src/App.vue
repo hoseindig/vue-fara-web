@@ -1,30 +1,58 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <div id="app">
+    <nav
+      v-if="isAuthenticated"
+      class="flex justify-between items-center p-4 bg-gray-100 shadow text-right"
+    >
+      <div class="flex gap-4">
+        <router-link to="/" class="text-blue-600 font-semibold"
+          >خانه</router-link
+        >
+        <router-link to="/about" class="text-blue-600 font-semibold"
+          >درباره ما</router-link
+        >
+      </div>
+      <button
+        @click="logout"
+        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+      >
+        خروج
+      </button>
+    </nav>
+
+    <router-view />
+  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import { defineComponent, computed } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
-nav {
-  padding: 30px;
+export default defineComponent({
+  setup() {
+    const store = useStore();
+    const router = useRouter();
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+    const isAuthenticated = computed(
+      () => store.getters["auth/isAuthenticated"]
+    );
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+    const logout = () => {
+      store.dispatch("auth/logout");
+      router.push("/login");
+    };
+
+    return {
+      isAuthenticated,
+      logout,
+    };
+  },
+});
+</script>
+
+<style scoped>
+.router-link-exact-active {
+  color: #42b983;
 }
 </style>
