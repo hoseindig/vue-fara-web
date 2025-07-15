@@ -93,7 +93,6 @@ export default defineComponent({
         await store.dispatch("user/setUser");
         loading.value = false;
 
-        // ✅ نمایش toast
         showToast.value = true;
 
         // بعد چند لحظه بره به صفحه اصلی
